@@ -8,7 +8,7 @@ from app.shop import Shop
 @dataclass
 class Customer:
     name: str
-    products_cart: dict
+    product_cart: dict
     location: list[int]
     money: int | float
     car: Car
@@ -27,11 +27,11 @@ class Customer:
         if not shop.products:
             return 0
         product_price = 0
-        for key, value in self.products_cart.items():
+        for key, value in self.product_cart.items():
             if key in shop.products:
                 product_price += value * shop.products[key]
             else:
-                raise KeyError("There is no required product")
+                raise KeyError(f"There is no {key} in {shop.name}")
         return product_price
 
     def travel_calculation(self, shop: Shop, fuel_price: float) -> int | float:

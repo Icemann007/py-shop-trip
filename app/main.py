@@ -57,11 +57,13 @@ def shop_trip() -> None:
 
         current_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         print(f"\nDate: {current_time}"
-              f"\nThanks, {customer.name}, for your purchase!"
-              f"\nYou have bought:")
+              f"\nThanks, {customer.name}, for your purchase!")
+        print("You have bought:")
 
-        for key, value in customer.products_cart.items():
+        for key, value in customer.product_cart.items():
             product_price = value * choose_shop.products[key]
+            if isinstance(product_price, float) and product_price.is_integer():
+                product_price = int(product_price)
             print(f"{value} {key}s for {product_price} dollars")
             total_product_price += product_price
 
