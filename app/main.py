@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+import datetime
 
 from app.customer import Customer
 from app.car import Car
@@ -53,10 +53,10 @@ def shop_trip() -> None:
                   f"money to make a purchase in any shop")
             continue
         else:
-            print(f"{customer.name} rides to {choose_shop.name}")
+            print(f"{customer.name} rides to {choose_shop.name}\n")
 
-        current_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-        print(f"\nDate: {current_time}")
+        current_time = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        print(f"Date: {current_time}")
         print(f"Thanks, {customer.name}, for your purchase!")
         print("You have bought:")
 
