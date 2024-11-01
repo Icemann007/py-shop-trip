@@ -37,12 +37,12 @@ def shop_trip() -> None:
 
     for customer in customers:
         min_cost = float("inf")
-        choose_shop = ""
+        choose_shop = Shop
         total_product_price = 0
         print(customer.have_money())
 
         for shop in shops:
-            price = customer.travel_calculation(shop, fuel_price)
+            price = customer.total_cost(shop, fuel_price)
             print(f"{customer.name}'s trip to the {shop.name} costs {price}")
 
             if price < min_cost:
@@ -51,7 +51,7 @@ def shop_trip() -> None:
         if min_cost > customer.money:
             print(f"{customer.name} doesn't have enough "
                   f"money to make a purchase in any shop")
-            return
+            continue
         else:
             print(f"{customer.name} rides to {choose_shop.name}")
 
@@ -61,13 +61,18 @@ def shop_trip() -> None:
         print("You have bought:")
 
         for key, value in customer.product_cart.items():
-            product_price = value * choose_shop.products[key]
-            if isinstance(product_price, float) and product_price.is_integer():
-                product_price = int(product_price)
-            print(f"{value} {key}s for {product_price} dollars")
-            total_product_price += product_price
+            if key in choose_shop.products:
+                product_price = value * choose_shop.products[key]
+                if isinstance(product_price, float) and product_price.is_integer():
+                    product_price = int(product_price)
+                else:
+                    raise KeyError(f"There is no {key} in {choose_shop.name}")
+                print(f"{value} {key}s for {product_price} dollars")
+                total_product_price += product_price
 
         print(f"Total cost is {total_product_price} dollars\n"
               f"See you again!\n\n"
               f"{customer.name} rides home\n"
               f"{customer.name} now has {customer.money - min_cost} dollars\n")
+
+shop_trip()

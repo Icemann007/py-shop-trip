@@ -34,7 +34,7 @@ class Customer:
                 raise KeyError(f"There is no {key} in {shop.name}")
         return product_price
 
-    def travel_calculation(self, shop: Shop, fuel_price: float) -> int | float:
+    def total_cost(self, shop: Shop, fuel_price: float) -> int | float:
         trip_calculate = self.trip_cost(shop, fuel_price)
         product_calculate = self.product_cost(shop)
         return trip_calculate + product_calculate
