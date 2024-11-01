@@ -56,23 +56,22 @@ def shop_trip() -> None:
             print(f"{customer.name} rides to {choose_shop.name}")
 
         current_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-        print(f"\nDate: {current_time}"
-              f"\nThanks, {customer.name}, for your purchase!")
+        print(f"\nDate: {current_time}")
+        print(f"Thanks, {customer.name}, for your purchase!")
         print("You have bought:")
 
         for key, value in customer.product_cart.items():
             if key in choose_shop.products:
                 product_price = value * choose_shop.products[key]
-                if isinstance(product_price, float) and product_price.is_integer():
+                if (isinstance(product_price, float)
+                        and product_price.is_integer()):
                     product_price = int(product_price)
-                else:
-                    raise KeyError(f"There is no {key} in {choose_shop.name}")
                 print(f"{value} {key}s for {product_price} dollars")
                 total_product_price += product_price
+            else:
+                raise KeyError(f"There is no {key} in {choose_shop.name}")
 
-        print(f"Total cost is {total_product_price} dollars\n"
-              f"See you again!\n\n"
-              f"{customer.name} rides home\n"
-              f"{customer.name} now has {customer.money - min_cost} dollars\n")
-
-shop_trip()
+        print(f"Total cost is {total_product_price} dollars")
+        print("See you again!\n")
+        print(f"{customer.name} rides home")
+        print(f"{customer.name} now has {customer.money - min_cost} dollars\n")
