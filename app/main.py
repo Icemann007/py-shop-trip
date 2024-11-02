@@ -11,17 +11,16 @@ def shop_trip() -> None:
         data = json.load(f)
 
     fuel_price = data["FUEL_PRICE"]
-    customers = []
-
-    for customer in data["customers"]:
-        customer_instance = Customer(
+    customers = [
+        Customer(
             customer["name"],
             customer["product_cart"],
             customer["location"],
             customer["money"],
             Car(**customer["car"])
         )
-        customers.append(customer_instance)
+        for customer in data["customers"]
+    ]
 
     shops = [Shop(**shops) for shops in data["shops"]]
 
