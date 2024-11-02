@@ -25,11 +25,11 @@ class Customer:
         if not shop.products:
             return 0
         product_price = 0
-        for key, value in self.product_cart.items():
-            if key in shop.products:
-                product_price += value * shop.products[key]
+        for product, quantity in self.product_cart.items():
+            if product in shop.products:
+                product_price += quantity * shop.products[product]
             else:
-                raise KeyError(f"There is no {key} in {shop.name}")
+                raise KeyError(f"There is no {product} in {shop.name}")
         return product_price
 
     def total_cost(self, shop: Shop, fuel_price: float) -> int | float:
