@@ -17,9 +17,7 @@ class Customer:
         return f"{self.name} has {self.money} dollars"
 
     def trip_cost(self, shop: Shop, fuel_price: float) -> int | float:
-        distance = math.sqrt(
-            (self.location[0] - shop.location[0]) ** 2
-            + (self.location[1] - shop.location[1]) ** 2)
+        distance = math.dist(self.location, shop.location)
         fuel = distance / 100 * self.car.fuel_consumption
         return round(fuel * fuel_price * 2, 2)
 

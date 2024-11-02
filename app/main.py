@@ -12,7 +12,6 @@ def shop_trip() -> None:
 
     fuel_price = data["FUEL_PRICE"]
     customers = []
-    shops = []
 
     for customer in data["customers"]:
         customer_instance = Customer(
@@ -20,20 +19,11 @@ def shop_trip() -> None:
             customer["product_cart"],
             customer["location"],
             customer["money"],
-            Car(
-                customer["car"]["brand"],
-                customer["car"]["fuel_consumption"]
-            )
+            Car(**customer["car"])
         )
         customers.append(customer_instance)
 
-    for shop in data["shops"]:
-        shop_instance = Shop(
-            shop["name"],
-            shop["location"],
-            shop["products"]
-        )
-        shops.append(shop_instance)
+    shops = [Shop(**shops) for shops in data["shops"]]
 
     for customer in customers:
         min_cost = float("inf")
@@ -56,22 +46,22 @@ def shop_trip() -> None:
             print(f"{customer.name} rides to {choose_shop.name}\n")
 
         current_time = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-        print(f"Date: {current_time}")
-        print(f"Thanks, {customer.name}, for your purchase!")
-        print("You have bought:")
+        print(f"Date: {current_time}\n"
+              f"Thanks, {customer.name}, for your purchase!\n"
+              "You have bought:")
 
-        for key, value in customer.product_cart.items():
-            if key in choose_shop.products:
-                product_price = value * choose_shop.products[key]
+        for product, quantity in customer.product_cart.items():
+            if product in choose_shop.products:
+                product_price = quantity * choose_shop.products[product]
                 if (isinstance(product_price, float)
                         and product_price.is_integer()):
                     product_price = int(product_price)
-                print(f"{value} {key}s for {product_price} dollars")
+                print(f"{quantity} {product}s for {product_price} dollars")
                 total_product_price += product_price
             else:
-                raise KeyError(f"There is no {key} in {choose_shop.name}")
+                raise KeyError(f"There is no {product} in {choose_shop.name}")
 
-        print(f"Total cost is {total_product_price} dollars")
-        print("See you again!\n")
-        print(f"{customer.name} rides home")
-        print(f"{customer.name} now has {customer.money - min_cost} dollars\n")
+        print(f"Total cost is {total_product_price} dollars\n"
+              "See you again!\n\n"
+              f"{customer.name} rides home\n"
+              f"{customer.name} now has {customer.money - min_cost} dollars\n")
